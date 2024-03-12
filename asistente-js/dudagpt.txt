@@ -1,3 +1,7 @@
+estoy haciendo un programa en nodejs que se conecta a mi calendario de google
+y como parámetros entre otros uso timeMin con la fecha y hora de inicio y timeMax con la fecha y hora final
+te pongo un trozo del código para que me entiendas mejor :
+
 const { google } = require('googleapis');
 const key = require('./credentials.json'); // Import your service account key JSON file
 
@@ -34,3 +38,5 @@ async function listEvents() {
 
 // Call the function to list events
 listEvents();
+
+mi objetivo es ver los eventos del calendario del día  en el que se eecuta el script por lo que no sé si la fechaMin deberán ser las 23:59:59 del día y la fecha Max las 00:00 del día siguiente al que se ejecuta el script cómo lo ves? me ayudas?
