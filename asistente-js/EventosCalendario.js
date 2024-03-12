@@ -41,7 +41,7 @@ class EventosCalendario {
         const fechaInicio = new Date(evento.start.dateTime);
         const fechaFin = new Date(evento.end.dateTime);
         
-        console.log('Resumen:', resumen);
+        console.log('Evento:', resumen);
         console.log('Fecha de inicio:', fechaInicio.toLocaleString());
         console.log('Fecha de fin:', fechaFin.toLocaleString());
         console.log('----------------------------------------');
