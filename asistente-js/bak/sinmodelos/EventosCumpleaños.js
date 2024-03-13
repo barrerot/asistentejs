@@ -3,15 +3,14 @@ const key = require('./credentials.json');
 
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 
-class EventosCalendario {
-  constructor(calendarId) {
+class EventosCumpleaños {
+  constructor() {
     this.auth = new google.auth.JWT({
       email: key.client_email,
       key: key.private_key,
       scopes: SCOPES,
     });
 
-    this.calendarId = calendarId;
     this.calendar = google.calendar({ version: 'v3', auth: this.auth });
   }
 
@@ -23,7 +22,7 @@ class EventosCalendario {
       const timeMax = finDelDia.toISOString();
 
       const respuesta = await this.calendar.events.list({
-        calendarId: this.calendarId,
+        calendarId: '4eb2a07a481552a715397611e9475770bbad2bca0a9ebce6901d3b103fc37cf5@group.calendar.google.com',
         timeMin: timeMin,
         timeMax: timeMax,
         maxResults: 10,
@@ -45,9 +44,8 @@ class EventosCalendario {
       });
     } catch (err) {
       console.error('Error al obtener eventos del calendario:', err);
-      throw err;
     }
   }
 }
 
-module.exports = EventosCalendario;
+module.exports = EventosCumpleaños;

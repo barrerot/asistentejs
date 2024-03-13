@@ -1,0 +1,31 @@
+Inicia tu servidor:
+Asegúrate de que tu servidor Express esté en ejecución.
+
+Abre Postman:
+Abre Postman en tu dispositivo.
+
+Selecciona el método y la URL:
+Para probar la ruta de eventos, selecciona el método GET y establece la URL a la dirección donde tu servidor Express está ejecutando la ruta de eventos, por ejemplo, http://localhost:puerto/api/eventos. Haz lo mismo para la ruta de cumpleaños.
+
+Agrega los parámetros del cuerpo:
+En la pestaña de Body de Postman, selecciona el formato JSON y agrega los parámetros day, month, y year. Por ejemplo:
+
+json
+Copy code
+{
+  "day": 13,
+  "month": 3,
+  "year": 2024
+}
+Esto obtendrá los eventos o cumpleaños para el día 13 de marzo de 2024.
+
+Envía la solicitud:
+Haz clic en el botón "Send" para enviar la solicitud.
+
+Con estos pasos, deberías poder probar las rutas de eventos y cumpleaños de tu API utilizando Postman. Asegúrate de que tu servidor esté en ejecución y que los archivos eventos.js y cumpleaños.js estén configurados correctamente para manejar las solicitudes según lo necesites.
+
+
+
+
+
+
