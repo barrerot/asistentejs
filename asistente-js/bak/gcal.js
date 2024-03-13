@@ -1,5 +1,5 @@
 const { google } = require('googleapis');
-const key = require('./credentials.json'); // Import your service account key JSON file
+const key = require('../credentials.json'); // Import your service account key JSON file
 
 // Define the scope for the calendar API
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];

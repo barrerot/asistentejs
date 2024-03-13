@@ -1,4 +1,4 @@
-const EventosCumpleaños = require('./EventosCumpleaños');
+const EventosCumpleaños = require('../EventosCumpleaños');
 
 // Crear una instancia de la clase EventosCumpleaños
 const cumpleaños = new EventosCumpleaños();

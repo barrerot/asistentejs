@@ -1,5 +1,5 @@
 const { google } = require('googleapis');
-const key = require('./credentials.json'); // Importa tu archivo JSON de credenciales del servicio
+const key = require('../credentials.json'); // Importa tu archivo JSON de credenciales del servicio
 
 // Define el ámbito para la API del calendario
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
