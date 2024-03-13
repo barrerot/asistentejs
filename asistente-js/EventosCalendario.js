@@ -1,19 +1,16 @@
 const { google } = require('googleapis');
-const key = require('./credentials.json'); // Importa tu archivo JSON de credenciales del servicio
+const key = require('./credentials.json');
 
-// Define el ámbito para la API del calendario
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 
 class EventosCalendario {
   constructor() {
-    // Crea un nuevo cliente JWT utilizando el archivo de clave
     this.auth = new google.auth.JWT({
       email: key.client_email,
       key: key.private_key,
       scopes: SCOPES,
     });
 
-    // Configura la API de Google Calendar con el cliente autenticado
     this.calendar = google.calendar({ version: 'v3', auth: this.auth });
   }
 
@@ -35,7 +32,6 @@ class EventosCalendario {
 
       const eventos = respuesta.data.items;
 
-      // Iterar sobre los eventos y mostrar el resumen junto con las fechas
       eventos.forEach(evento => {
         const resumen = evento.summary;
         const fechaInicio = new Date(evento.start.dateTime);
