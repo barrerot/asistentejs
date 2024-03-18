@@ -1,19 +1,16 @@
 const { google } = require('googleapis');
-const key = require('./credentials.json'); // Importa tu archivo JSON de credenciales del servicio
+const key = require('./credentials.json');
 
-// Define el ámbito para la API del calendario
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 
 class EventosCumpleaños {
   constructor() {
-    // Crea un nuevo cliente JWT utilizando el archivo de clave
     this.auth = new google.auth.JWT({
       email: key.client_email,
       key: key.private_key,
       scopes: SCOPES,
     });
 
-    // Configura la API de Google Calendar con el cliente autenticado
     this.calendar = google.calendar({ version: 'v3', auth: this.auth });
   }
 
@@ -35,19 +32,18 @@ class EventosCumpleaños {
 
       const eventos = respuesta.data.items;
 
-      // Iterar sobre los eventos y mostrar el resumen junto con las fechas
-      eventos.forEach(evento => {
-        const resumen = evento.summary;
-        const fechaInicio = new Date(evento.start.dateTime);
-        const fechaFin = new Date(evento.end.dateTime);
-        
-        console.log('Evento:', resumen);
-        console.log('Fecha de inicio:', fechaInicio.toLocaleString());
-        console.log('Fecha de fin:', fechaFin.toLocaleString());
-        console.log('----------------------------------------');
+      const eventosFormateados = eventos.map(evento => {
+        return {
+          resumen: evento.summary,
+          fechaInicio: new Date(evento.start.dateTime).toLocaleString(),
+          fechaFin: new Date(evento.end.dateTime).toLocaleString()
+        };
       });
+
+      return eventosFormateados;
     } catch (err) {
-      console.error('Error al obtener eventos del calendario:', err);
+      console.error('Error al obtener eventos de cumpleaños:', err);
+      throw err;
     }
   }
 }
