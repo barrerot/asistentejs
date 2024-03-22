@@ -18,6 +18,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+// Conexión a la Base de Datos
+require('./lib/connectDB');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

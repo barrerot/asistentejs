@@ -17,6 +17,7 @@
     "google-auth-library": "^9.6.3",
     "googleapis": "^133.0.0",
     "http-errors": "~1.6.3",
+    "mongoose": "^8.2.2",
     "morgan": "~1.9.1"
   },
   "devDependencies": {
