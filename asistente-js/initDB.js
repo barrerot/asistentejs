@@ -1,9 +1,10 @@
 'use strict';
 
 const { askUser } = require('./lib/utils');
-const { mongoose, connectMongoose, Anuncio } = require('./models');
+const { mongoose, connectMongoose, Cumpleaños, Evento } = require('./models');
 
-const ANUNCIOS_JSON = './anuncios.json';
+const CUMPLEAÑOS_JSON = './Cumpleaños.json';
+const EVENTOS_JSON = './eventos.json';
 
 main().catch(err => console.error('Error!', err));
 
@@ -21,16 +22,23 @@ async function main() {
   }
 
   // Inicializar nuestros modelos
-  const anunciosResult = await initAnuncios(ANUNCIOS_JSON);
-  console.log(`\nAnuncios: Deleted ${anunciosResult.deletedCount}, loaded ${anunciosResult.loadedCount} from ${ANUNCIOS_JSON}`);
+  const cumpleañosResult = await initCumpleaños(CUMPLEAÑOS_JSON);
+  console.log(`\nCumpleañoss: Deleted ${cumpleañosResult.deletedCount}, loaded ${cumpleañosResult.loadedCount} from ${CUMPLEAÑOS_JSON}`);
+  const eventosResult = await initEventos(EVENTOS_JSON);
+  console.log(`\nEventos: Deleted ${eventosResult.deletedCount}, loaded ${eventosResult.loadedCount} from ${EVENTOS_JSON}`);
 
   // Cuando termino, cierro la conexión a la BD
   await mongoose.connection.close();
   console.log('\nDone.');
 }
 
-async function initAnuncios(fichero) {
-  const { deletedCount } = await Anuncio.deleteMany();
-  const loadedCount = await Anuncio.cargaJson(fichero);
+async function initCumpleaños(fichero) {
+  const { deletedCount } = await Cumpleaños.deleteMany();
+  const loadedCount = await Cumpleaños.cargaJson(fichero);
+  return { deletedCount, loadedCount };
+}
+async function initEventos(fichero) {
+  const { deletedCount } = await Evento.deleteMany();
+  const loadedCount = await Evento.cargaJson(fichero);
   return { deletedCount, loadedCount };
 }

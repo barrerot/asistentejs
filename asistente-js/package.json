@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "cross-env DEBUG=asistente-js:* nodemon ./bin/www",
-    "exporta-json": "node ./main.js"
+    "exporta-json": "node ./main.js",
+    "initDB": "node initDB.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
