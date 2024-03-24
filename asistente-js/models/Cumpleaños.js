@@ -1,6 +1,7 @@
 'use strict';
 
 const mongoose = require('mongoose');
+const fsPromises = require('fs').promises;
 
 // Modelo
 const CumpleañosSchema = mongoose.Schema({
@@ -47,7 +48,23 @@ CumpleañosSchema.statics.createCumpleaños = function() {
     // Agrega aquí la lógica para crear un Cumpleaños
 };
 
-// Modelo y Export
-const Evento = mongoose.model('Cumpleaños', CumpleañosSchema);
+CumpleañosSchema.statics.cargaJson = async function (fichero) {
+    const data = await fsPromises.readFile(fichero, { encoding: 'utf8' });
+  
+    if (!data) {
+      throw new Error(fichero + ' está vacio!');
+    }
+  
+    const cumpleaños = JSON.parse(data).cumpleaños;
+    const numCumpleaños = cumpleaños.length;
+  
+    for (var i = 0; i < cumpleaños.length; i++) {
+      await (new this(cumpleaños[i])).save();
+    }
+  
+    return numCumpleaños;
+};
 
-module.exports = Evento;
+// Modelo y Export
+const Cumpleaños = mongoose.model('Cumpleaños', CumpleañosSchema);
+module.exports = Cumpleaños;
