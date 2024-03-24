@@ -15,7 +15,6 @@ eventoSchema.statics.listar = function(request) {
     const summary = request.query.summary;
     const start = request.query.start;
     const end = request.query.end;
-    const range = request.query.range;
     const limit = parseInt(request.query.limit);
     const skip = parseInt(request.query.skip);
     const sort = request.query.sort;
@@ -66,5 +65,5 @@ eventoSchema.statics.cargaJson = async function (fichero) {
 };
 
 // Modelo y Export
-const Evento = mongoose.model('Evento', eventoSchema);
+const Evento = mongoose.model('Eventos', eventoSchema);
 module.exports = Evento;

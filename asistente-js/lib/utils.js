@@ -52,8 +52,70 @@ const utils =  {
     }
 
     return filters;
+  },
+
+  // Función para construir filtros de eventos desde la solicitud
+  buildEventosFilterFromReq(req) {
+    const filters = {};
+
+    if (req.query.summary) {
+        filters.summary = new RegExp('^' + req.query.summary, 'i');
+    }
+
+    if (req.query.start) {
+        filters.start = req.query.start;
+    }
+
+    if (req.query.end) {
+        filters.end = req.query.end;
+    }
+
+    if (typeof req.query.limit !== 'undefined') {
+        filters.limit = parseInt(req.query.limit);
+    }
+
+    if (typeof req.query.skip !== 'undefined') {
+        filters.skip = parseInt(req.query.skip);
+    }
+
+    if (req.query.sort) {
+        filters.sort = req.query.sort;
+    }
+
+    return filters;
+  },
+
+  // Función para construir filtros de cumpleaños desde la solicitud
+  buildCumpleañosFilterFromReq(req) {
+    const filters = {};
+
+    if (req.query.summary) {
+        filters.summary = new RegExp('^' + req.query.summary, 'i');
+    }
+
+    if (req.query.start) {
+        filters.start = req.query.start;
+    }
+
+    if (req.query.end) {
+        filters.end = req.query.end;
+    }
+
+    if (typeof req.query.limit !== 'undefined') {
+        filters.limit = parseInt(req.query.limit);
+    }
+
+    if (typeof req.query.skip !== 'undefined') {
+        filters.skip = parseInt(req.query.skip);
+    }
+
+    if (req.query.sort) {
+        filters.sort = req.query.sort;
+    }
+
+    return filters;
   }
-  
+
 };
 
 module.exports = utils;

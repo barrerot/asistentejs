@@ -15,7 +15,6 @@ CumpleañosSchema.statics.listar = function(request) {
     const summary = request.query.summary;
     const start = request.query.start;
     const end = request.query.end;
-    const range = request.query.range;
     const limit = parseInt(request.query.limit);
     const skip = parseInt(request.query.skip);
     const sort = request.query.sort;
