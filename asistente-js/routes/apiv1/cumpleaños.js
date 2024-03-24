@@ -7,46 +7,24 @@ const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 
 const Cumpleaños = mongoose.model('Cumpleaños');
-const { buildCumpleañosFilterFromReq } = require('../../lib/utils');
 
-// Return the list of anuncio
-router.get('/', (req, res, next) => {
-
-  const start = parseInt(req.query.start) || 0;
-  const limit = parseInt(req.query.limit) || 1000; // nuestro api devuelve max 1000 registros
-  const sort = req.query.sort || '_id';
-  const includeTotal = req.query.includeTotal === 'true';
-
-  const filters = buildCumpleañosFilterFromReq(req);
-
-  // Ejemplo hecho con callback, aunque puede hacerse mejor con promesa y await
-  Anuncio.list(filters, start, limit, sort, includeTotal, function (err, anuncios) {
-    if (err) return next(err);
-    res.json({ result: anuncios });
-  });
-});
-
-// Return the list of available tags
-router.get('/tags', asyncHandler(async function (req, res) {
-  const distinctTags = await Anuncio.distinct('tags');
-  res.json({ result: distinctTags });
+// Return the list of cumpleaños
+router.get('/', asyncHandler(async (req, res, next) => {
+  const cumpleaños = await Cumpleaños.find(); // Buscar todos los cumpleaños sin filtros adicionales
+  res.json({ result: cumpleaños });
 }));
 
 // Create
-router.post('/', [ // validaciones:
-  body('nombre' ).isAlphanumeric().withMessage('nombre must be string'),
-  body('venta'  ).isBoolean()     .withMessage('must be boolean'),
-  body('precio' ).isNumeric()     .withMessage('must be numeric'),
+router.post('/', [
+  body('summary').isString().withMessage('summary must be string'),
+  body('start').isISO8601().withMessage('start must be a valid date'),
+  body('end').isISO8601().withMessage('end must be a valid date'),
 ], asyncHandler(async (req, res) => {
-
   validationResult(req).throw();
-  const anuncioData = req.body;
-
-  const anuncio = new Anuncio(anuncioData);
-  const anuncioGuardado = await anuncio.save();
-
-  res.json({ result: anuncioGuardado });
-
+  const cumpleañosData = req.body;
+  const cumpleaños = new Cumpleaños(cumpleañosData);
+  const cumpleañosGuardado = await cumpleaños.save();
+  res.json({ result: cumpleañosGuardado });
 }));
 
 module.exports = router;

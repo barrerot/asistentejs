@@ -19,7 +19,7 @@ app.set('view engine', 'ejs');
 /**
  * Global Template variables
  */
-app.locals.title = 'NodePop';
+app.locals.title = 'Asistente-js';
 
 /**
  * Middlewares
@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
  * Website routes
  */
 app.use('/', require('./routes/index'));
-//app.use('/anuncios', require('./routes/anuncios'));
+
 
 /**
  * API v1 routes

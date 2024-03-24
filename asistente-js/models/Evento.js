@@ -3,14 +3,12 @@
 const mongoose = require('mongoose');
 const fsPromises = require('fs').promises;
 
-// Modelo
 const eventoSchema = mongoose.Schema({
     summary: { type: String, index: true },
-    start: { type: Date , index: true }, 
-    end: { type: Date , index: true }, 
+    start: { type: Date, index: true },
+    end: { type: Date, index: true },
 });
 
-// Métodos
 eventoSchema.statics.listar = function(request) {
     const summary = request.query.summary;
     const start = request.query.start;
@@ -19,21 +17,31 @@ eventoSchema.statics.listar = function(request) {
     const skip = parseInt(request.query.skip);
     const sort = request.query.sort;
 
+    console.log("Fechas recibidas:", start, end); // Agregar registro de consola
+
     const filtro = {};
     if (summary) {
-        filtro.summary = { $regex: `.*${summary}`, $options: "i" }
-    };
+        filtro.summary = { $regex: `.*${summary}`, $options: "i" };
+    }
     if (start) {
-        filtro.start = start
-    };
+        filtro.start = { $gte: new Date(start) };
+    }
     if (end) {
-        filtro.end = end
-    };
+        // Incrementamos la fecha de `end` en un día para incluir eventos que ocurran en el día especificado
+        const endDate = new Date(end);
+        endDate.setDate(endDate.getDate() + 1);
+        filtro.end = { $lte: endDate };
+    }
+
+    console.log("Filtro aplicado:", filtro); // Agregar registro de consola
 
     const query = this.find(filtro);
     query.limit(limit);
     query.skip(skip);
     query.sort(sort);
+
+    console.log("Consulta MongoDB:", query); // Agregar registro de consola
+
     return query.exec();
 };
 
@@ -47,23 +55,22 @@ eventoSchema.statics.createEvento = function() {
     // Agrega aquí la lógica para crear un evento
 };
 
-eventoSchema.statics.cargaJson = async function (fichero) {
+eventoSchema.statics.cargaJson = async function(fichero) {
     const data = await fsPromises.readFile(fichero, { encoding: 'utf8' });
-  
+
     if (!data) {
-      throw new Error(fichero + ' está vacio!');
+        throw new Error(fichero + ' está vacio!');
     }
-  
+
     const eventos = JSON.parse(data).eventos;
     const numEventos = eventos.length;
-  
+
     for (var i = 0; i < eventos.length; i++) {
-      await (new this(eventos[i])).save();
+        await (new this(eventos[i])).save();
     }
-  
+
     return numEventos;
 };
 
-// Modelo y Export
 const Evento = mongoose.model('Eventos', eventoSchema);
 module.exports = Evento;

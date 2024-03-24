@@ -1,6 +1,6 @@
 'use strict';
 
-const { askUser } = require('./lib/utils');
+const { askUser } = require('./lib/inputUtils'); // Cambio aquí
 const { mongoose, connectMongoose, Cumpleaños, Evento } = require('./models');
 
 const CUMPLEAÑOS_JSON = './Cumpleaños.json';
