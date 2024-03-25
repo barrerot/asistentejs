@@ -39,7 +39,7 @@ app.use('/', require('./routes/index'));
  * API v1 routes
  */
 app.use('/apiv1/eventos', require('./routes/apiv1/eventos'));
-app.use('/apiv1/cumpleaños', require('./routes/apiv1/cumpleaños'));
+app.use('/apiv1/cumpleanos', require('./routes/apiv1/cumpleaños'));
 
 /**
  * Error handlers
