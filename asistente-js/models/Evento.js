@@ -33,23 +33,19 @@ eventoSchema.statics.listar = function(request) {
         filtro.end = { $lte: endDate };
     }
 
-    console.log("Filtro aplicado:", filtro); // Agregar registro de consola
+    
 
     const query = this.find(filtro);
     query.limit(limit);
     query.skip(skip);
     query.sort(sort);
 
-    console.log("Consulta MongoDB:", query); // Agregar registro de consola
+    
 
     return query.exec();
 };
 
-eventoSchema.statics.getTags = function() {
-    const query = this.find();
-    query.select("tags");
-    return query.exec();
-};
+
 
 eventoSchema.statics.createEvento = function() {
     // Agrega aquí la lógica para crear un evento

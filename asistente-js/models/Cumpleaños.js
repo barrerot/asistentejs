@@ -37,11 +37,7 @@ CumpleañosSchema.statics.listar = function(request) {
     return query.exec();
 };
 
-CumpleañosSchema.statics.getTags = function() {
-    const query = this.find();
-    query.select("tags");
-    return query.exec();
-};
+
 
 CumpleañosSchema.statics.createCumpleaños = function() {
     // Agrega aquí la lógica para crear un Cumpleaños
