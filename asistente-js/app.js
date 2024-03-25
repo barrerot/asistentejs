@@ -6,9 +6,8 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-
 const { isAPI } = require('./lib/utils');
-require('./models'); // Connect DB & register models
+const connectionPromise = require('./lib/connectDB');
 
 const app = express();
 
@@ -36,7 +35,6 @@ app.use(express.static(path.join(__dirname, 'public')));
  */
 app.use('/', require('./routes/index'));
 
-
 /**
  * API v1 routes
  */
@@ -47,7 +45,7 @@ app.use('/apiv1/cumpleaños', require('./routes/apiv1/cumpleaños'));
  * Error handlers
  */
 // catch 404 and forward to error handler
-app.use( (req, res, next) => next(createError(404)) );
+app.use((req, res, next) => next(createError(404)));
 
 // error handler
 app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
@@ -67,7 +65,6 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   if (err.status && err.status >= 500) console.error(err);
   
   // si es una petición al API respondo JSON:
-
   if (isAPI(req)) {
     res.json({ error: err.message });
     return;

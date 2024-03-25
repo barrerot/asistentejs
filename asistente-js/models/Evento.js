@@ -9,43 +9,10 @@ const eventoSchema = mongoose.Schema({
     end: { type: Date, index: true },
 });
 
-eventoSchema.statics.listar = function(request) {
-    const summary = request.query.summary;
-    const start = request.query.start;
-    const end = request.query.end;
-    const limit = parseInt(request.query.limit);
-    const skip = parseInt(request.query.skip);
-    const sort = request.query.sort;
-
-    console.log("Fechas recibidas:", start, end); // Agregar registro de consola
-
-    const filtro = {};
-    if (summary) {
-        filtro.summary = { $regex: `.*${summary}`, $options: "i" };
-    }
-    if (start) {
-        filtro.start = { $gte: new Date(start) };
-    }
-    if (end) {
-        // Incrementamos la fecha de `end` en un día para incluir eventos que ocurran en el día especificado
-        const endDate = new Date(end);
-        endDate.setDate(endDate.getDate() + 1);
-        filtro.end = { $lte: endDate };
-    }
-
-    
-
-    const query = this.find(filtro);
-    query.limit(limit);
-    query.skip(skip);
-    query.sort(sort);
-
-    
-
+eventoSchema.statics.listar = function(filters) {
+    const query = this.find(filters);
     return query.exec();
 };
-
-
 
 eventoSchema.statics.createEvento = function() {
     // Agrega aquí la lógica para crear un evento
@@ -55,13 +22,13 @@ eventoSchema.statics.cargaJson = async function(fichero) {
     const data = await fsPromises.readFile(fichero, { encoding: 'utf8' });
 
     if (!data) {
-        throw new Error(fichero + ' está vacio!');
+        throw new Error(fichero + ' está vacío!');
     }
 
     const eventos = JSON.parse(data).eventos;
     const numEventos = eventos.length;
 
-    for (var i = 0; i < eventos.length; i++) {
+    for (let i = 0; i < eventos.length; i++) {
         await (new this(eventos[i])).save();
     }
 

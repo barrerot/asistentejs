@@ -58,28 +58,22 @@ const utils =  {
   buildEventosFilterFromReq(req) {
     const filters = {};
 
-    if (req.query.summary) {
-        filters.summary = new RegExp('^' + req.query.summary, 'i');
+    if (req.query.day) {
+        filters.start = {
+            $gte: new Date(req.query.day),
+            $lt: new Date(req.query.day + 'T23:59:59.999Z')
+        };
     }
 
     if (req.query.start) {
-        filters.start = req.query.start;
+        filters.start = { $gte: new Date(req.query.start) };
     }
 
     if (req.query.end) {
-        filters.end = req.query.end;
-    }
-
-    if (typeof req.query.limit !== 'undefined') {
-        filters.limit = parseInt(req.query.limit);
-    }
-
-    if (typeof req.query.skip !== 'undefined') {
-        filters.skip = parseInt(req.query.skip);
-    }
-
-    if (req.query.sort) {
-        filters.sort = req.query.sort;
+        // Incrementamos la fecha de `end` en un día para incluir eventos que ocurran en el día especificado
+        const endDate = new Date(req.query.end);
+        endDate.setDate(endDate.getDate() + 1);
+        filters.end = { $lt: endDate };
     }
 
     return filters;
