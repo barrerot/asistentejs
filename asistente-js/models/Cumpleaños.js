@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const fsPromises = require('fs').promises;
 
 // Definición del esquema
 const CumpleañosSchema = mongoose.Schema({
@@ -35,6 +36,22 @@ CumpleañosSchema.statics.listar = function(filters) {
         query.sort(sort);
     }
     return query.exec();
+};
+CumpleañosSchema.statics.cargaJson = async function (fichero) {
+    const data = await fsPromises.readFile(fichero, { encoding: 'utf8' });
+  
+    if (!data) {
+      throw new Error(fichero + ' está vacio!');
+    }
+  
+    const cumpleaños = JSON.parse(data).cumpleaños;
+    const numCumpleaños = cumpleaños.length;
+  
+    for (var i = 0; i < cumpleaños.length; i++) {
+      await (new this(cumpleaños[i])).save();
+    }
+  
+    return numCumpleaños;
 };
 
 // Exportación del modelo
